@@ -219,7 +219,15 @@
     let aulas = [];
     try {
       const raw = getParam('aulas');
-      if (raw) aulas = JSON.parse(decodeURIComponent(raw));
+      if (raw && raw !== 'null' && raw !== 'undefined' && raw.trim() !== '') {
+        const decoded = decodeURIComponent(raw);
+        const parsed = JSON.parse(decoded);
+        if (Array.isArray(parsed)) {
+          aulas = parsed;
+        } else if (parsed && Array.isArray(parsed.aulas)) {
+          aulas = parsed.aulas;
+        }
+      }
     } catch(e) {
       aulas = [];
     }
