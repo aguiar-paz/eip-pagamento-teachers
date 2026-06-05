@@ -211,6 +211,7 @@
     const teacher   = getParam('teacher')   || '—';
     const periodo   = getParam('periodo')   || '—';
     const totalVal  = getParam('totalValor')|| '0';
+    const valorRecebido = getParam('valorRecebido') || '';
     const binId     = getParam('binId')     || '';
     let aulasTotal = 0;
     let aulasNao = 0;
@@ -302,9 +303,13 @@
           <div class="metric-value">${periodo}</div>
         </div>
         <div class="metric">
-          <div class="metric-label">Valor a receber</div>
+          <div class="metric-label">Valor das Aulas</div>
           <div class="metric-value destaque">${formatBRL(totalVal)}</div>
         </div>
+        ${valorRecebido ? `<div class="metric">
+          <div class="metric-label">Valor Recebido</div>
+          <div class="metric-value" style="color:#2e7d32;">${formatBRL(valorRecebido)}</div>
+        </div>` : ''}
       </div>
 
       <table>
