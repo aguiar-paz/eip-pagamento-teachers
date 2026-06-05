@@ -234,7 +234,7 @@
 
     // Calcular totais
     aulasTotal = aulas.length;
-    aulasNao = aulas.filter(a => a.pres === "CP" || a.pres === "CC" || a.pres === "CS" || a.pres === "Fe").length;
+    aulasNao = aulas.filter(a => a.pres === "CP" || a.pres === "CC").length;
     aulasConsid = aulasTotal - aulasNao;
 
     if (!getParam('teacher')) {
