@@ -207,29 +207,46 @@
     return new Date().toLocaleDateString('pt-BR');
   }
 
-  function render() {
+  async function render() {
     const teacher   = getParam('teacher')   || '—';
     const periodo   = getParam('periodo')   || '—';
     const totalVal  = getParam('totalValor')|| '0';
+    const binId     = getParam('binId')     || '';
     let aulasTotal = 0;
     let aulasNao = 0;
     let aulasConsid = 0;
-
-    // aulas = JSON array: [{desc, data, turma, pres, valor}, ...]
     let aulas = [];
-    try {
-      const raw = getParam('aulas');
-      if (raw && raw !== 'null' && raw !== 'undefined' && raw.trim() !== '') {
-        const decoded = decodeURIComponent(raw);
-        const parsed = JSON.parse(decoded);
-        if (Array.isArray(parsed)) {
-          aulas = parsed;
-        } else if (parsed && Array.isArray(parsed.aulas)) {
-          aulas = parsed.aulas;
+
+    if (binId) {
+      try {
+        const resp = await fetch('https://api.jsonbin.io/v3/b/' + binId + '/latest', {
+          headers: { 'X-Master-Key': '$2a$10$Q1QJfO/leY5lQHayY0KPeuiulp19LWRpHypmAlCMjKTdRVOs4PovG' }
+        });
+        const data = await resp.json();
+        const raw = data.record;
+        if (Array.isArray(raw)) {
+          aulas = raw;
+        } else if (raw && Array.isArray(raw.aulas)) {
+          aulas = raw.aulas;
         }
+      } catch(e) {
+        aulas = [];
       }
-    } catch(e) {
-      aulas = [];
+    } else {
+      try {
+        const raw = getParam('aulas');
+        if (raw && raw !== 'null' && raw !== 'undefined' && raw.trim() !== '') {
+          const decoded = decodeURIComponent(raw);
+          const parsed = JSON.parse(decoded);
+          if (Array.isArray(parsed)) {
+            aulas = parsed;
+          } else if (parsed && Array.isArray(parsed.aulas)) {
+            aulas = parsed.aulas;
+          }
+        }
+      } catch(e) {
+        aulas = [];
+      }
     }
 
     // Calcular totais
@@ -330,7 +347,7 @@
     document.getElementById('print-area').style.display = 'block';
   }
 
-  render();
+  render().catch(console.error);
 </script>
 </body>
 </html>
