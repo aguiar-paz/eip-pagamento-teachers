@@ -211,9 +211,9 @@
     const teacher   = getParam('teacher')   || '—';
     const periodo   = getParam('periodo')   || '—';
     const totalVal  = getParam('totalValor')|| '0';
-    const aulasTotal= getParam('aulasTotal')|| '0';
-    const aulasNao  = getParam('aulasNao')  || '0';
-    const aulasConsid = (parseInt(aulasTotal) - parseInt(aulasNao)) || 0;
+    let aulasTotal = 0;
+    let aulasNao = 0;
+    let aulasConsid = 0;
 
     // aulas = JSON array: [{desc, data, turma, pres, valor}, ...]
     let aulas = [];
@@ -231,6 +231,11 @@
     } catch(e) {
       aulas = [];
     }
+
+    // Calcular totais
+    aulasTotal = aulas.length;
+    aulasNao = aulas.filter(a => a.pres === "CP" || a.pres === "CC" || a.pres === "CS" || a.pres === "Fe").length;
+    aulasConsid = aulasTotal - aulasNao;
 
     if (!getParam('teacher')) {
       document.getElementById('conteudo').innerHTML = `
