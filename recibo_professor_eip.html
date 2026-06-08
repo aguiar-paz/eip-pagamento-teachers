@@ -71,9 +71,9 @@
     color: #999; margin-bottom: 5px;
   }
   .metric-value {
-    font-size: 16px; font-weight: 600; color: #1a1a1a;
+    font-size: 15px; font-weight: 600; color: #1a1a1a;
   }
-  .metric-value.destaque { font-size: 22px; color: #A32D2D; }
+  .metric-value.destaque { font-size: 18px; color: #A32D2D; }
 
   /* TABLE */
   table {
@@ -103,9 +103,8 @@
   }
   td.right { text-align: right; }
   td.center { text-align: center; }
-  .col-desc { width: 40%; }
+  .col-desc { width: 55%; }
   .col-data { width: 9%; }
-  .col-turma { width: 23%; }
   .col-pres { width: 9%; }
   .col-valor { width: 11%; }
   .col-idx { width: 5%; color: #bbb; font-size: 11px; }
@@ -211,7 +210,7 @@
     const teacher   = getParam('teacher')   || '—';
     const periodo   = getParam('periodo')   || '—';
     const totalVal  = getParam('totalValor')|| '0';
-    const valorRecebido = getParam('valorRecebido') || '';
+    const valorTransferido = getParam('valorTransferido') || '';
     const binId     = getParam('binId')     || '';
     let aulasTotal = 0;
     let aulasNao = 0;
@@ -272,7 +271,6 @@
         <td class="col-idx center">${i + 1}</td>
         <td class="col-desc" title="${a.desc || ''}">${a.desc || '—'}</td>
         <td class="col-data">${a.data || '—'}</td>
-        <td class="col-turma" title="${a.turma || ''}">${a.turma || '—'}</td>
         <td class="col-pres center"><span class="badge ${badgeClass(a.pres)}">${a.pres || '—'}</span></td>
         <td class="col-valor right">${formatBRL(a.valor)}</td>
       </tr>
@@ -306,9 +304,9 @@
           <div class="metric-label">Valor das Aulas</div>
           <div class="metric-value destaque">${formatBRL(totalVal)}</div>
         </div>
-        ${valorRecebido ? `<div class="metric">
-          <div class="metric-label">Valor Recebido</div>
-          <div class="metric-value" style="color:#2e7d32;">${formatBRL(valorRecebido)}</div>
+        ${valorTransferido ? `<div class="metric">
+          <div class="metric-label">Valor Transferido</div>
+          <div class="metric-value" style="color:#2e7d32;">${formatBRL(valorTransferido)}</div>
         </div>` : ''}
       </div>
 
@@ -317,7 +315,7 @@
           <col class="col-idx">
           <col class="col-desc">
           <col class="col-data">
-          <col class="col-turma">
+          
           <col class="col-pres">
           <col class="col-valor">
         </colgroup>
@@ -326,7 +324,7 @@
             <th class="center">#</th>
             <th>Conteúdo</th>
             <th>Data</th>
-            <th>Turma</th>
+            
             <th class="center">Pres.</th>
             <th class="right">Valor</th>
           </tr>
