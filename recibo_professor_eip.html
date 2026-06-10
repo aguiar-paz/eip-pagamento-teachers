@@ -103,11 +103,23 @@
   }
   td.right { text-align: right; }
   td.center { text-align: center; }
-  .col-desc { width: 55%; }
-  .col-data { width: 9%; }
-  .col-pres { width: 9%; }
-  .col-valor { width: 11%; }
-  .col-idx { width: 5%; color: #bbb; font-size: 11px; }
+
+  /* Widths — sem coluna Turma */
+  .no-turma .col-desc  { width: 56%; }
+  .no-turma .col-data  { width: 10%; }
+  .no-turma .col-pres  { width: 10%; }
+  .no-turma .col-valor { width: 12%; }
+  .no-turma .col-idx   { width: 5%; }
+
+  /* Widths — com coluna Turma */
+  .com-turma .col-idx   { width: 4%; }
+  .com-turma .col-turma { width: 16%; }
+  .com-turma .col-desc  { width: 44%; }
+  .com-turma .col-data  { width: 10%; }
+  .com-turma .col-pres  { width: 9%; }
+  .com-turma .col-valor { width: 11%; }
+
+  .col-idx { color: #bbb; font-size: 11px; }
 
   /* BADGES */
   .badge {
@@ -249,6 +261,9 @@
       }
     }
 
+    // Detectar se alguma aula tem turmaNome preenchido
+    const temTurma = aulas.some(a => a.turmaNome && a.turmaNome.trim() !== '');
+
     // Calcular totais
     aulasTotal = aulas.length;
     aulasNao = aulas.filter(a => a.pres === "CP" || a.pres === "CC").length;
@@ -266,15 +281,42 @@
       return;
     }
 
-    const linhas = aulas.map((a, i) => `
-      <tr>
-        <td class="col-idx center">${i + 1}</td>
-        <td class="col-desc" title="${a.desc || ''}">${a.desc || '—'}</td>
-        <td class="col-data">${a.data || '—'}</td>
-        <td class="col-pres center"><span class="badge ${badgeClass(a.pres)}">${a.pres || '—'}</span></td>
-        <td class="col-valor right">${formatBRL(a.valor)}</td>
-      </tr>
-    `).join('');
+    const totalCols = temTurma ? 6 : 5;
+
+    const colgroup = temTurma
+      ? `<colgroup>
+          <col class="col-idx">
+          <col class="col-turma">
+          <col class="col-desc">
+          <col class="col-data">
+          <col class="col-pres">
+          <col class="col-valor">
+        </colgroup>`
+      : `<colgroup>
+          <col class="col-idx">
+          <col class="col-desc">
+          <col class="col-data">
+          <col class="col-pres">
+          <col class="col-valor">
+        </colgroup>`;
+
+    const theadTurma = temTurma ? `<th>Turma</th>` : '';
+
+    const linhas = aulas.map((a, i) => {
+      const colTurma = temTurma
+        ? `<td class="col-turma" title="${a.turmaNome || ''}">${a.turmaNome || '—'}</td>`
+        : '';
+      return `
+        <tr>
+          <td class="col-idx center">${i + 1}</td>
+          ${colTurma}
+          <td class="col-desc" title="${a.desc || ''}">${a.desc || '—'}</td>
+          <td class="col-data">${a.data || '—'}</td>
+          <td class="col-pres center"><span class="badge ${badgeClass(a.pres)}">${a.pres || '—'}</span></td>
+          <td class="col-valor right">${formatBRL(a.valor)}</td>
+        </tr>
+      `;
+    }).join('');
 
     document.getElementById('conteudo').innerHTML = `
       <div class="header">
@@ -310,27 +352,20 @@
         </div>` : ''}
       </div>
 
-      <table>
-        <colgroup>
-          <col class="col-idx">
-          <col class="col-desc">
-          <col class="col-data">
-          
-          <col class="col-pres">
-          <col class="col-valor">
-        </colgroup>
+      <table class="${temTurma ? 'com-turma' : 'no-turma'}">
+        ${colgroup}
         <thead>
           <tr>
             <th class="center">#</th>
+            ${theadTurma}
             <th>Conteúdo</th>
             <th>Data</th>
-            
             <th class="center">Pres.</th>
             <th class="right">Valor</th>
           </tr>
         </thead>
         <tbody>
-          ${linhas || '<tr><td colspan="6" style="text-align:center;color:#bbb;padding:1.5rem;">Nenhuma aula encontrada.</td></tr>'}
+          ${linhas || `<tr><td colspan="${totalCols}" style="text-align:center;color:#bbb;padding:1.5rem;">Nenhuma aula encontrada.</td></tr>`}
         </tbody>
       </table>
 
