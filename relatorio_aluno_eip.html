@@ -6,128 +6,38 @@
 <title>Relatório de Aulas — EiP Idiomas</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #f4f4f2;
-    color: #1a1a1a;
-    padding: 2rem 1rem;
-  }
-
-  .page {
-    background: #fff;
-    max-width: 780px;
-    margin: 0 auto;
-    border-radius: 12px;
-    border: 1px solid #e0e0e0;
-    padding: 2.5rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-
-  /* HEADER */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 1.25rem;
-    border-bottom: 2.5px solid #A32D2D;
-    margin-bottom: 1.5rem;
-  }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f4f2; color: #1a1a1a; padding: 2rem 1rem; }
+  .page { background: #fff; max-width: 780px; margin: 0 auto; border-radius: 12px; border: 1px solid #e0e0e0; padding: 2.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 1.25rem; border-bottom: 2.5px solid #A32D2D; margin-bottom: 1.5rem; }
   .logo-area { display: flex; align-items: center; gap: 12px; }
-  .logo-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
+  .logo-img { height: 48px; width: auto; display: block; }
   .school-name { font-size: 18px; font-weight: 600; color: #1a1a1a; }
   .school-sub { font-size: 12px; color: #888; margin-top: 2px; }
   .doc-info { text-align: right; }
-  .doc-info h2 {
-    font-size: 13px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.08em;
-    color: #A32D2D; margin-bottom: 4px;
-  }
+  .doc-info h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #A32D2D; margin-bottom: 4px; }
   .doc-info p { font-size: 12px; color: #888; }
-
-  /* SUMMARY BAR */
-  .summary-bar {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  /* CONTADORES */
-  .summary-counts {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    margin-bottom: 1.5rem;
-  }
-
-  .metric {
-    background: #fafafa;
-    border: 1px solid #ebebeb;
-    border-radius: 8px;
-    padding: 12px 14px;
-  }
-  .metric-label {
-    font-size: 10px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    color: #999; margin-bottom: 5px;
-  }
+  .summary-bar { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .summary-counts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 1.5rem; }
+  .metric { background: #fafafa; border: 1px solid #ebebeb; border-radius: 8px; padding: 12px 14px; }
+  .metric-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 5px; }
   .metric-value { font-size: 15px; font-weight: 600; color: #1a1a1a; }
-  .metric-value.verde   { color: #2e7d32; }
+  .metric-value.verde { color: #2e7d32; }
   .metric-value.destaque { font-size: 18px; color: #A32D2D; }
   .metric-value.laranja { color: #e65100; }
-
-  /* LEGENDA */
-  .legenda {
-    font-size: 11px; color: #999;
-    margin-bottom: 1rem;
-    line-height: 1.6;
-  }
-
-  /* TABLE */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12.5px;
-    table-layout: fixed;
-  }
+  .legenda { font-size: 11px; color: #999; margin-bottom: 1rem; line-height: 1.6; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
   thead tr { background: #A32D2D; }
-  thead th {
-    padding: 9px 10px;
-    font-weight: 600; font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.05em;
-    color: #fff; text-align: left;
-  }
+  thead th { padding: 9px 10px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #fff; text-align: left; }
   thead th.center { text-align: center; }
   tbody tr:nth-child(even) { background: #fafafa; }
   tbody tr:hover { background: #FFF0F0; }
-  td {
-    padding: 7px 10px;
-    color: #1a1a1a;
-    border-bottom: 1px solid #f0f0f0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  td { padding: 7px 10px; color: #1a1a1a; border-bottom: 1px solid #f0f0f0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   td.center { text-align: center; }
-
-  .col-idx  { width: 5%; color: #bbb; font-size: 11px; }
+  .col-idx { width: 5%; color: #bbb; font-size: 11px; }
   .col-data { width: 14%; }
   .col-desc { width: 70%; }
   .col-pres { width: 11%; }
-
-  /* BADGES */
-  .badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-size: 11px; font-weight: 600;
-  }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
   .badge-P  { background: #e8f5e9; color: #2e7d32; }
   .badge-F  { background: #ffebee; color: #b71c1c; }
   .badge-R  { background: #fff8e1; color: #f57f17; }
@@ -136,47 +46,15 @@
   .badge-CS { background: #fce4ec; color: #880e4f; }
   .badge-Fe { background: #e8eaf6; color: #283593; }
   .badge-default { background: #f5f5f5; color: #555; }
-
-  /* FOOTER */
-  .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid #ebebeb;
-  }
+  .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid #ebebeb; }
   .footer-counts { font-size: 12px; color: #888; line-height: 1.8; }
   .footer-counts strong { color: #1a1a1a; }
-  .footer-nota {
-    font-size: 11px; color: #bbb;
-    font-style: italic; text-align: right;
-    max-width: 300px;
-  }
-
-  /* PRINT BUTTON */
+  .footer-nota { font-size: 11px; color: #bbb; font-style: italic; text-align: right; max-width: 300px; }
   .print-area { text-align: center; margin-top: 1.5rem; }
-  .btn-print {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 24px;
-    background: #A32D2D; color: #fff;
-    border: none; border-radius: 8px;
-    font-size: 13px; font-weight: 600;
-    cursor: pointer; letter-spacing: 0.03em;
-    transition: background 0.15s;
-  }
+  .btn-print { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; background: #A32D2D; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; letter-spacing: 0.03em; transition: background 0.15s; }
   .btn-print:hover { background: #791F1F; }
   .btn-print svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-  /* ERROR */
-  .error-box {
-    background: #fff3f3; border: 1px solid #f5c6c6;
-    border-radius: 8px; padding: 1.5rem;
-    color: #a32d2d; font-size: 14px; line-height: 1.7;
-    text-align: center;
-  }
-
-  /* PRINT */
+  .error-box { background: #fff3f3; border: 1px solid #f5c6c6; border-radius: 8px; padding: 1.5rem; color: #a32d2d; font-size: 14px; line-height: 1.7; text-align: center; }
   @media print {
     body { background: #fff; padding: 0; }
     .page { box-shadow: none; border: none; border-radius: 0; padding: 1.5rem; }
@@ -188,29 +66,20 @@
 </style>
 </head>
 <body>
-<div class="page">
-  <div id="conteudo"></div>
-</div>
+<div class="page"><div id="conteudo"></div></div>
 <div class="print-area" id="print-area" style="display:none;">
   <button class="btn-print" onclick="window.print()">
     <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
     Imprimir / Salvar como PDF
   </button>
 </div>
-
 <script>
-  function getParam(name) {
-    return new URLSearchParams(window.location.search).get(name) || '';
-  }
-
+  function getParam(name) { return new URLSearchParams(window.location.search).get(name) || ''; }
   function badgeClass(pres) {
-    const map = { P: 'badge-P', F: 'badge-F', R: 'badge-R', CP: 'badge-CP', CC: 'badge-CC', CS: 'badge-CS', Fe: 'badge-Fe' };
+    const map = { P:'badge-P', F:'badge-F', R:'badge-R', CP:'badge-CP', CC:'badge-CC', CS:'badge-CS', Fe:'badge-Fe' };
     return map[pres] || 'badge-default';
   }
-
-  function hoje() {
-    return new Date().toLocaleDateString('pt-BR');
-  }
+  function hoje() { return new Date().toLocaleDateString('pt-BR'); }
 
   async function render() {
     const aluno   = getParam('aluno')   || '—';
@@ -231,15 +100,10 @@
     }
 
     if (!getParam('aluno')) {
-      document.getElementById('conteudo').innerHTML = `
-        <div class="error-box">
-          <strong>Nenhum dado encontrado.</strong><br>
-          Este documento precisa ser aberto com os parâmetros corretos via FlutterFlow.
-        </div>`;
+      document.getElementById('conteudo').innerHTML = `<div class="error-box"><strong>Nenhum dado encontrado.</strong><br>Este documento precisa ser aberto com os parâmetros corretos via FlutterFlow.</div>`;
       return;
     }
 
-    // Contadores — assistidas = apenas P e R
     const assistidas = aulas.filter(a => ['P','R'].includes(a.pres)).length;
     const faltas     = aulas.filter(a => a.pres === 'F').length;
     const cancelSem  = aulas.filter(a => a.pres === 'CS').length;
@@ -252,13 +116,12 @@
         <td class="col-data">${a.data || '—'}</td>
         <td class="col-desc" title="${a.desc || ''}">${a.desc || '—'}</td>
         <td class="col-pres center"><span class="badge ${badgeClass(a.pres)}">${a.pres || '—'}</span></td>
-      </tr>
-    `).join('');
+      </tr>`).join('');
 
     document.getElementById('conteudo').innerHTML = `
       <div class="header">
         <div class="logo-area">
-          <img class="logo-img" src="logoeipidiomas.jpg" alt="EiP Idiomas" onerror="this.outerHTML='<div style=\'width:50px;height:50px;border-radius:50%;background:#A32D2D;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;\'>EiP</div>'">
+          <img class="logo-img" src="logoeipidiomas.jpg" alt="EiP Idiomas" onerror="this.style.display='none'">
           <div>
             <div class="school-name">EiP Idiomas</div>
             <div class="school-sub">Relatório de Aulas</div>
@@ -269,84 +132,34 @@
           <p>Gerado em ${hoje()}</p>
         </div>
       </div>
-
       <div class="summary-bar">
-        <div class="metric">
-          <div class="metric-label">Aluno</div>
-          <div class="metric-value">${aluno}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Período</div>
-          <div class="metric-value">${periodo}</div>
-        </div>
+        <div class="metric"><div class="metric-label">Aluno</div><div class="metric-value">${aluno}</div></div>
+        <div class="metric"><div class="metric-label">Período</div><div class="metric-value">${periodo}</div></div>
       </div>
-
       <div class="summary-counts">
-        <div class="metric">
-          <div class="metric-label">Aulas Assistidas</div>
-          <div class="metric-value verde">${assistidas}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Falta do Aluno</div>
-          <div class="metric-value destaque">${faltas}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Cancel. Sem Antec.</div>
-          <div class="metric-value laranja">${cancelSem}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Cancel. Com Antec.</div>
-          <div class="metric-value">${cancelCom}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Cancel. Professor</div>
-          <div class="metric-value">${cancelProf}</div>
-        </div>
+        <div class="metric"><div class="metric-label">Aulas Assistidas</div><div class="metric-value verde">${assistidas}</div></div>
+        <div class="metric"><div class="metric-label">Falta do Aluno</div><div class="metric-value destaque">${faltas}</div></div>
+        <div class="metric"><div class="metric-label">Cancel. Sem Antec.</div><div class="metric-value laranja">${cancelSem}</div></div>
+        <div class="metric"><div class="metric-label">Cancel. Com Antec.</div><div class="metric-value">${cancelCom}</div></div>
+        <div class="metric"><div class="metric-label">Cancel. Professor</div><div class="metric-value">${cancelProf}</div></div>
       </div>
-
       <div class="legenda">
-        <strong>Legendas:</strong>
-        P – Presente &nbsp;|&nbsp; F – Falta &nbsp;|&nbsp; R – Reposição &nbsp;|&nbsp;
+        <strong>Legendas:</strong> P – Presente &nbsp;|&nbsp; F – Falta &nbsp;|&nbsp; R – Reposição &nbsp;|&nbsp;
         CS – Cancelado Sem Antecedência &nbsp;|&nbsp; CC – Cancelado Com Antecedência &nbsp;|&nbsp;
         CP – Cancelado pelo Professor &nbsp;|&nbsp; Fe – Feriado
       </div>
-
       <table>
-        <colgroup>
-          <col class="col-idx">
-          <col class="col-data">
-          <col class="col-desc">
-          <col class="col-pres">
-        </colgroup>
-        <thead>
-          <tr>
-            <th class="center">#</th>
-            <th>Data</th>
-            <th>Conteúdo</th>
-            <th class="center">Pres.</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${linhas || '<tr><td colspan="4" style="text-align:center;color:#bbb;padding:1.5rem;">Nenhuma aula encontrada.</td></tr>'}
-        </tbody>
+        <colgroup><col class="col-idx"><col class="col-data"><col class="col-desc"><col class="col-pres"></colgroup>
+        <thead><tr><th class="center">#</th><th>Data</th><th>Conteúdo</th><th class="center">Pres.</th></tr></thead>
+        <tbody>${linhas || '<tr><td colspan="4" style="text-align:center;color:#bbb;padding:1.5rem;">Nenhuma aula encontrada.</td></tr>'}</tbody>
       </table>
-
       <div class="footer">
-        <div class="footer-counts">
-          Total de aulas: <strong>${aulas.length}</strong> &nbsp;|&nbsp;
-          Assistidas: <strong>${assistidas}</strong> &nbsp;|&nbsp;
-          Faltas: <strong>${faltas}</strong>
-        </div>
-        <div class="footer-nota">
-          Documento gerado pelo sistema EiP Idiomas.<br>
-          Gerado em ${hoje()}.
-        </div>
-      </div>
-    `;
+        <div class="footer-counts">Total de aulas: <strong>${aulas.length}</strong> &nbsp;|&nbsp; Assistidas: <strong>${assistidas}</strong> &nbsp;|&nbsp; Faltas: <strong>${faltas}</strong></div>
+        <div class="footer-nota">Documento gerado pelo sistema EiP Idiomas.<br>Gerado em ${hoje()}.</div>
+      </div>`;
 
     document.getElementById('print-area').style.display = 'block';
   }
-
   render().catch(console.error);
 </script>
 </body>
