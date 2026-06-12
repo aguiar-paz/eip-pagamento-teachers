@@ -34,13 +34,11 @@
     margin-bottom: 1.5rem;
   }
   .logo-area { display: flex; align-items: center; gap: 12px; }
-  .logo-circle {
-    width: 50px; height: 50px;
+  .logo-img {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background: #A32D2D;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 700; color: #fff;
-    letter-spacing: 0.03em;
+    object-fit: cover;
   }
   .school-name { font-size: 18px; font-weight: 600; color: #1a1a1a; }
   .school-sub { font-size: 12px; color: #888; margin-top: 2px; }
@@ -241,8 +239,8 @@
       return;
     }
 
-    // Contadores
-    const assistidas = aulas.filter(a => ['P','R','CS','Fe'].includes(a.pres)).length;
+    // Contadores — assistidas = apenas P e R
+    const assistidas = aulas.filter(a => ['P','R'].includes(a.pres)).length;
     const faltas     = aulas.filter(a => a.pres === 'F').length;
     const cancelSem  = aulas.filter(a => a.pres === 'CS').length;
     const cancelCom  = aulas.filter(a => a.pres === 'CC').length;
@@ -260,7 +258,7 @@
     document.getElementById('conteudo').innerHTML = `
       <div class="header">
         <div class="logo-area">
-          <div class="logo-circle">EiP</div>
+          <img class="logo-img" src="logoeipidiomas.jpg" alt="EiP Idiomas" onerror="this.outerHTML='<div style=\'width:50px;height:50px;border-radius:50%;background:#A32D2D;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;\'>EiP</div>'">
           <div>
             <div class="school-name">EiP Idiomas</div>
             <div class="school-sub">Relatório de Aulas</div>
