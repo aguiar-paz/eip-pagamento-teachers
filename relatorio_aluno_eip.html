@@ -242,7 +242,7 @@
     }
 
     // Contadores
-    const assistidas = aulas.filter(a => ['P','F','R','CS','Fe'].includes(a.pres)).length;
+    const assistidas = aulas.filter(a => ['P','R','CS','Fe'].includes(a.pres)).length;
     const faltas     = aulas.filter(a => a.pres === 'F').length;
     const cancelSem  = aulas.filter(a => a.pres === 'CS').length;
     const cancelCom  = aulas.filter(a => a.pres === 'CC').length;
