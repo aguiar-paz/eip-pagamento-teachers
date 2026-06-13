@@ -16,14 +16,32 @@
   .doc-info { text-align: right; }
   .doc-info h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #A32D2D; margin-bottom: 4px; }
   .doc-info p { font-size: 12px; color: #888; }
-  .summary-bar { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; margin-bottom: 8px; }
-  .summary-counts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 1.5rem; }
+
+  /* LINHA 1 — destaque: 4 colunas */
+  .summary-main {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  /* LINHA 2 — detalhes: 4 colunas */
+  .summary-detail {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+
   .metric { background: #fafafa; border: 1px solid #ebebeb; border-radius: 8px; padding: 12px 14px; }
+  .metric.destaque-card { background: #fff8f8; border-color: #f5c6c6; }
   .metric-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #999; margin-bottom: 5px; }
   .metric-value { font-size: 15px; font-weight: 600; color: #1a1a1a; }
   .metric-value.verde { color: #2e7d32; }
-  .metric-value.destaque { font-size: 18px; color: #A32D2D; }
+  .metric-value.vermelho { color: #A32D2D; font-size: 18px; }
   .metric-value.laranja { color: #e65100; }
+  .metric-value.pendente { color: #f57f17; font-size: 18px; }
+
   .legenda { font-size: 11px; color: #999; margin-bottom: 1rem; line-height: 1.6; }
   table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; }
   thead tr { background: #A32D2D; }
@@ -82,9 +100,10 @@
   function hoje() { return new Date().toLocaleDateString('pt-BR'); }
 
   async function render() {
-    const aluno   = getParam('aluno')   || '—';
-    const periodo = getParam('periodo') || '—';
-    const binId   = getParam('binId')   || '';
+    const aluno     = getParam('aluno')     || '—';
+    const periodo   = getParam('periodo')   || '—';
+    const binId     = getParam('binId')     || '';
+    const pendentes = parseInt(getParam('pendentes')) || 0;
     let aulas = [];
 
     if (binId) {
@@ -132,29 +151,65 @@
           <p>Gerado em ${hoje()}</p>
         </div>
       </div>
-      <div class="summary-bar">
-        <div class="metric"><div class="metric-label">Aluno</div><div class="metric-value">${aluno}</div></div>
-        <div class="metric"><div class="metric-label">Período</div><div class="metric-value">${periodo}</div></div>
+
+      <div class="summary-main">
+        <div class="metric">
+          <div class="metric-label">Aluno</div>
+          <div class="metric-value">${aluno}</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Período</div>
+          <div class="metric-value">${periodo}</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Aulas Realizadas</div>
+          <div class="metric-value verde">${assistidas}</div>
+        </div>
+        <div class="metric ${pendentes > 0 ? 'destaque-card' : ''}">
+          <div class="metric-label">Aulas Pendentes*</div>
+          <div class="metric-value ${pendentes > 0 ? 'pendente' : ''}">${pendentes}</div>
+        </div>
       </div>
-      <div class="summary-counts">
-        <div class="metric"><div class="metric-label">Aulas Assistidas</div><div class="metric-value verde">${assistidas}</div></div>
-        <div class="metric"><div class="metric-label">Falta do Aluno</div><div class="metric-value destaque">${faltas}</div></div>
-        <div class="metric"><div class="metric-label">Cancel. Sem Antec.</div><div class="metric-value laranja">${cancelSem}</div></div>
-        <div class="metric"><div class="metric-label">Cancel. Com Antec.</div><div class="metric-value">${cancelCom}</div></div>
-        <div class="metric"><div class="metric-label">Cancel. Professor</div><div class="metric-value">${cancelProf}</div></div>
+
+      <div class="summary-detail">
+        <div class="metric">
+          <div class="metric-label">Falta do Aluno</div>
+          <div class="metric-value vermelho">${faltas}</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Cancel. Sem Antec.</div>
+          <div class="metric-value laranja">${cancelSem}</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Cancel. Com Antec.</div>
+          <div class="metric-value">${cancelCom}</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Cancel. Professor</div>
+          <div class="metric-value">${cancelProf}</div>
+        </div>
       </div>
+
       <div class="legenda">
         <strong>Legendas:</strong> P – Presente &nbsp;|&nbsp; F – Falta &nbsp;|&nbsp; R – Reposição &nbsp;|&nbsp;
         CS – Cancelado Sem Antecedência &nbsp;|&nbsp; CC – Cancelado Com Antecedência &nbsp;|&nbsp;
-        CP – Cancelado pelo Professor &nbsp;|&nbsp; Fe – Feriado
+        CP – Cancelado pelo Professor &nbsp;|&nbsp; Fe – Feriado<br>
+        <strong>*Aulas Pendentes</strong> (CC+CP) ainda elegíveis para reposição: período de 90 dias.
       </div>
+
       <table>
         <colgroup><col class="col-idx"><col class="col-data"><col class="col-desc"><col class="col-pres"></colgroup>
         <thead><tr><th class="center">#</th><th>Data</th><th>Conteúdo</th><th class="center">Pres.</th></tr></thead>
         <tbody>${linhas || '<tr><td colspan="4" style="text-align:center;color:#bbb;padding:1.5rem;">Nenhuma aula encontrada.</td></tr>'}</tbody>
       </table>
+
       <div class="footer">
-        <div class="footer-counts">Total de aulas: <strong>${aulas.length}</strong> &nbsp;|&nbsp; Assistidas: <strong>${assistidas}</strong> &nbsp;|&nbsp; Faltas: <strong>${faltas}</strong></div>
+        <div class="footer-counts">
+          Total de aulas: <strong>${aulas.length}</strong> &nbsp;|&nbsp;
+          Realizadas: <strong>${assistidas}</strong> &nbsp;|&nbsp;
+          Faltas: <strong>${faltas}</strong> &nbsp;|&nbsp;
+          Pendentes: <strong>${pendentes}</strong>
+        </div>
         <div class="footer-nota">Documento gerado pelo sistema EiP Idiomas.<br>Gerado em ${hoje()}.</div>
       </div>`;
 
